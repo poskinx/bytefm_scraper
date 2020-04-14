@@ -32,9 +32,12 @@ The results are store in a csv output file.
     ```
 
 ### Optional installation
+
 The code comes with a handy mongodb wraper to store downloaded content.
-You can install mongo service from: https://docs.mongodb.com/manual/installation/.
-After that, you have to install the cache-requirements.txt:
+
+1. You can install mongo service from: https://docs.mongodb.com/manual/installation/.
+
+2. After that, you have to install the cache-requirements.txt:
     ```bash
     pip install -r cache-requirements.txt
     ```
