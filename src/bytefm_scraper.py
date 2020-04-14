@@ -7,7 +7,6 @@ import time
 from common import log
 from downloader import Downloader, DownloaderException
 from html_parser import HTMLParser
-from mongo_cache import MongoCache
 
 
 class ByteFMScraper():
@@ -23,6 +22,7 @@ class ByteFMScraper():
         self.header = ["program", "date", "title", "artist", "album", "label"]
         self.parser = HTMLParser()
         if use_cache:
+            from mongo_cache import MongoCache
             cache = MongoCache()
         else:
             cache = None

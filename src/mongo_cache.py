@@ -1,11 +1,12 @@
+from bson.binary import Binary
 try:
     import cPickle as pickle
 except ImportError:
     import pickle
-import zlib
 from datetime import datetime, timedelta
+import zlib
+
 from pymongo import MongoClient
-from bson.binary import Binary
 
 
 class MongoCache:

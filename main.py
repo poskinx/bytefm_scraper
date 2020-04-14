@@ -36,7 +36,7 @@ class ArgumentValidator(object):
 
 def get_args():
     parser = argparse.ArgumentParser(
-        description='Byte FM scraper.',
+        description='Run ByteFM scraper.',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
     parser.add_argument(
