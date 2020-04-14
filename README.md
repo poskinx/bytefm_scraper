@@ -78,6 +78,20 @@ $ python main.py --output-dir $(pwd -P) --start-date '2020-04-11' --end-date '20
 In this example, the _output.csv_ will contain the songs played in the program 'ByteFM am Morgen' during 11th and 13th of April of 2020.
 And the downloaded content will be stored in mongo because of the --use-cache flag, which is not mandatory.
 
+### Cache performance:
+
+```bash
+# Without cache, we have to take into account requests delays:
+$ python main.py --output-dir $(pwd -P) --start-date '2020-04-11' --end-date '2020-04-13' --radio-show 'bytefm-am-morgen' --log_level 'INFO'
+[ ... ]
+Total run: 50.3276078701 seconds
+
+# Getting content from cache:
+$ python main.py --output-dir $(pwd -P) --start-date '2020-04-11' --end-date '2020-04-13' --radio-show 'bytefm-am-morgen' --log_level 'INFO'  -
+-use-cache
+[ ... ]
+Total run: 0.358304023743 seconds
+```
 ## Output
 
 The csv columns names are:
