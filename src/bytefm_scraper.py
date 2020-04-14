@@ -7,10 +7,13 @@ import time
 from common import log
 from downloader import Downloader, DownloaderException
 from html_parser import HTMLParser
+from mongo_cache import MongoCache
 
 
 class ByteFMScraper():
-    def __init__(self, output_dir, start_date, end_date, chosen_program=None):
+    def __init__(
+            self, output_dir, start_date, end_date, chosen_program=None,
+            use_cache=False):
         self.output_dir = output_dir
         self.start_date = start_date
         self.end_date = end_date
@@ -19,7 +22,11 @@ class ByteFMScraper():
         self.base_url = 'https://www.byte.fm'
         self.header = ["program", "date", "title", "artist", "album", "label"]
         self.parser = HTMLParser()
-        self.Downloader = Downloader()
+        if use_cache:
+            cache = MongoCache()
+        else:
+            cache = None
+        self.Downloader = Downloader(cache=cache)
 
     def get_songs(self, html_page):
         for link in self.parser.get_links(html_page):

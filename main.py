@@ -5,6 +5,7 @@ import argparse
 from datetime import datetime
 import logging.config
 import os
+import time
 
 from src.bytefm_scraper import ByteFMScraper
 from src.common import log
@@ -66,9 +67,13 @@ def get_args():
         '--log_level',
         default='INFO',
         choices=['CRITICAL', 'ERROR', 'WARNING', 'INFO', 'DEBUG'],
-        help=(
-            "Set the logging output level. "
-        )
+        help="Set the logging output level."
+    )
+    parser.add_argument(
+        '--use-cache',
+        action='store_true',
+        default=False,
+        help="Wheter to use mongo cache db."
     )
     args = parser.parse_args()
     return args
@@ -79,15 +84,18 @@ def main(args):
     start_date = args.start_date
     end_date = args.end_date
     radio_show = args.radio_show
+    use_cache = args.use_cache
 
+    start_time = time.time()
     bytefm_scraper = ByteFMScraper(
-        output_dir, start_date, end_date, radio_show)
+        output_dir, start_date, end_date, radio_show, use_cache)
     bytefm_scraper.run()
+    logging.info('Total run: {} seconds'.format(time.time() - start_time))
 
 
 if __name__ == '__main__':
     args = get_args()
 
     logging.getLogger('').setLevel(args.log_level)
-
+    log.info('Runing with args: {} ...'.format(args))
     main(args)

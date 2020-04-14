@@ -32,6 +32,7 @@ class Downloader():
         self.proxies = proxies
         self._session = session
         self.cache = cache
+        self.retries = retries
 
     def __call__(self, url):
         result = None
@@ -42,7 +43,7 @@ class Downloader():
                 # url is not available in cache
                 pass
             else:
-                if self.num_retries > 0 and 500 <= result['code'] < 600:
+                if self.retries > 0 and 500 <= result['code'] < 600:
                     # Server error so ignore result from cache and re-download.
                     result = None
         if result is None:
