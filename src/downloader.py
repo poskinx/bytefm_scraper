@@ -1,10 +1,13 @@
 import random
+import time
 
 import requests
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 
 from fake_useragent import UserAgent
+
+from common import log
 
 
 class DownloaderException(Exception):
@@ -36,7 +39,7 @@ class Downloader():
             try:
                 result = self.cache[url]
             except KeyError:
-                # url is not available in cache 
+                # url is not available in cache
                 pass
             else:
                 if self.num_retries > 0 and 500 <= result['code'] < 600:
@@ -51,11 +54,14 @@ class Downloader():
         return result['html']
 
     def download(self, url):
+        # Get random user-agent for each http request
         self._session.headers.update({'User-Agent': UserAgent().random})
         if self.proxies:
             proxy = random.choice(self.proxies)
             proxyDict = dict(https=proxy, http=proxy)
             self._session.headers.update(proxies=proxyDict)
+        log.debug('Delaying request between 0 and 9 seconds ...')
+        time.sleep(random.randint(0, 9))  # avoid crashing the server
         try:
             response = self._session.get(url)
         except requests.exceptions.ConnectionError as e:

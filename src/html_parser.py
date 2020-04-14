@@ -1,5 +1,8 @@
 from bs4 import BeautifulSoup
 
+from common import log
+
+
 class HTMLParser():
     def get_links(self, html_page):
         '''
@@ -9,7 +12,6 @@ class HTMLParser():
         soup = BeautifulSoup(html_page, 'html.parser')
         for link in soup.find_all("a"):
             yield link.get('href')
-
 
     def get_program_songs(self, html_page):
         """
@@ -37,7 +39,7 @@ class HTMLParser():
                 raw_album = raw_text.split(' / ')[0]
                 raw_label = '|'.join(raw_text.split('/')[1:len(raw_text)])
             except ValueError as e:
-                logging.debug(e)
+                log.debug(e)
                 raw_album = ''.join(data.find('br').next_siblings)
                 raw_label = ''
             except AttributeError as e:
@@ -59,4 +61,4 @@ class HTMLParser():
         text = text.replace('/', '')
         text = text.replace('"', '')
         text = text.strip()
-        return text
+        return text.encode('utf-8')
